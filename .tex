@@ -1,0 +1,273 @@
+\documentclass{jams-l}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{xca}[theorem]{Exercise}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\blankbox}[2]{%
+  \parbox{\columnwidth}{\centering
+    \setlength{\fboxsep}{0pt}%
+    \fbox{\raisebox{0pt}[#2]{\hspace{#1}}}%
+  }
+}
+\usepackage[english, french]{babel}
+\usepackage{amsmath}
+\usepackage[UTF8]{ctex}
+\usepackage{hyperref}
+\hypersetup{hidelinks, colorlinks=true, allcolors=blue, pdfstartview=Fit, breaklinks=true}
+\usepackage{xeCJK}
+\setCJKmainfont{AdobeKaitiStd-Regular.otf}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{left=2cm,right=2cm,top=2cm,bottom=2cm}
+
+
+
+\begin{document}
+
+\title{单摆的周期问题}
+\author{Boris Jobs}
+%\address{Mathematical Institute of the University of Bonn}
+%\curraddr{Mathematical Institute of the University of Bonn}
+\email{1322553126@qq.com}
+%\thanks{The first author was supported in part by Peter Scholze in the flesh./not true.}
+
+
+    % General info
+% \subjclass[2000]{Primary 54C40, 14E20; Secondary 46E25, 20C20}
+
+%\date{July 7, 2022 and, in revised form, July 8, 2022.}
+
+% \dedicatory{This paper is dedicated to our Peter Scholze.}
+
+\keywords{Arithmetic Algebraic Geometry, Shinzo Abe died today}
+
+\maketitle
+\begin{abstract}
+目标：求单摆周期. 总体思路：1.从能量的角度来得到每时每刻的速度值大小，通过速度值和每一时刻的时间与角度的微分关系得到微分方程式，进行积分，得到周期的公式；2.从动力学角度来分析，通过微分方程解得角速度和时间的关系，进行积分，得到周期公式；3.里面涉及的泰勒展开关系和级数一致收敛与可积性会进行深入讨论.
+\end{abstract}
+\tableofcontents
+
+
+
+
+\newpage
+\part{能量定律角度}
+\section{动能定理}
+如图\ref{question}，是单摆的物理模型：
+\begin{figure}
+    \centering
+    \includegraphics[width=2in,height=2in]{pendulum.jpg}
+    \caption{单摆问题的物理模型，以轻绳的最顶端为原点，水平向右为x轴正方向建立坐标系，其中角度$\theta$的取值范围定为$(-\frac{\pi}{2}, \frac{\pi}{2})$，而绳长设为$l$.}
+    \label{question}
+\end{figure}
+假设小球初始位置绳与竖直方向夹角为$\theta_0$（$0<\theta_0 \leq \frac{\pi}{2}$），初速度为零无外力作用释放小球，末时刻轻绳与竖直方向夹角为$\theta$，从动能定理可以得到小球位于每个位置时的速率大小：
+\begin{equation}
+    mgl(\cos\theta-\cos\theta_0)=\frac{1}{2} mv^2
+\end{equation}
+解得：
+\begin{equation}
+    v=\sqrt{2gl(\cos\theta-\cos\theta_0)}
+\end{equation}
+对于给定时刻$t$的微小时刻$dt$内，满足关系式：
+\begin{equation}\label{velocity}
+    dt=-\frac{ld\theta}{v}
+\end{equation}
+将速度$v$代入式(\ref{velocity})得到：
+\begin{equation}\label{dt}
+    dt=-\sqrt{\frac{l}{2g}}\frac{d\theta}{\sqrt{\cos\theta-\cos\theta_0}}
+\end{equation}
+
+
+
+
+\section{第一类完全椭圆积分}
+我们从小球在初始位置到小球到绳子底部进行积分：
+\begin{equation}
+\begin{aligned}
+    \frac{T}{4}&=-\sqrt{\frac{l}{2g}}\int_{\theta_0}^0 \frac{d\theta}{\sqrt{\cos\theta-\cos\theta_0}}\\
+    &=\frac{1}{2}\sqrt{\frac{l}{g}}\int^{\theta_0}_0 \frac{d\theta}{\sqrt{\sin^2\frac{\theta_0}{2}-\sin^2\frac{\theta}{2}}}
+    \end{aligned}
+\end{equation}
+做变换，凑第一类完全椭圆积分：
+\begin{equation}
+        \frac{T}{4}=\frac{1}{2}\sqrt{\frac{l}{g}}\int^{\theta_0}_0 \frac{d\theta}{\sin\frac{\theta_0}{2}\sqrt{1-\frac{\sin^2\frac{\theta}{2}}{\sin^2\frac{\theta_0}{2}}}}
+\end{equation}
+此处令：$\sin \alpha=\frac{\sin\frac{\theta}{2}}{\sin\frac{\theta_0}{2}}$，
+那么：
+\begin{equation}
+    \theta=2\arcsin (\sin \alpha \sin \frac{\theta_0}{2})
+\end{equation}
+微分：
+\begin{equation}
+    d \theta=\frac{2\sin \frac{\theta_0}{2}\cos \alpha\ d\alpha}{\sqrt{1-\sin^2\alpha \sin^2\frac{\theta_0}{2}}}
+\end{equation}
+代入上述推导中：
+\begin{equation}\label{ellipse}
+    \frac{T}{4}=\sqrt{\frac{l}{g}}\int^{\frac{\pi}{2}}_0 \frac{d\alpha}{\sqrt{1-k^2\sin^2\alpha}}
+\end{equation}
+
+
+\section{$(1+x)^{\alpha}$的Taylor展开}
+其中：$k^2=\sin^2\frac{\theta_0}{2}$,式(\ref{ellipse})中的积分即为第一类完全椭圆积分.将被积函数进行Taylor展开：
+\begin{equation}
+\begin{aligned}
+    \frac{1}{\sqrt{1-k^2\sin^2\alpha}}&=
+    1+\frac{1}{2}k^2\sin^2\alpha+\frac{1\cdot 3}{2\cdot 4}k^4\sin^4\alpha
+    +\cdots+\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin ^{2n}\alpha+\cdots\\
+    &=\sum_{n=0}^{ \infty} {-\frac{1}{2} \choose n} (-1)^n k^{2n}\sin^{2n} \alpha\\
+    &=\sum_{n=0}^{ \infty}\frac{1 \cdot 3 \cdot 5 \cdots (2n-1)}{2 \cdot 4 \cdot 6 \cdots 2n}k^{2n} \sin^{2n} \alpha\\
+    &=\sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n} \alpha
+\end{aligned}
+\end{equation}
+将展开式代入积分之中，得到：
+\begin{equation}
+    T=4\sqrt{\frac{l}{g}}\int_0^{\frac{\pi}{2}} \left(\sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n} \alpha\right) d\alpha
+\end{equation}
+
+\section{幂级数的一致收敛性质}
+令级数为：
+\begin{equation}
+    \sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n} \alpha=\sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}x^{2n}
+\end{equation}
+其中$x=k\sin \alpha=\sin \frac{\theta}{2}$，故$|x|\leq \frac{\sqrt{2}}{2}$，对于等式右边的级数：
+\begin{equation}
+    \sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}x^{2n}=\sum_{n=0}^{\infty} a_n x^{2n}
+\end{equation}
+由d' Alembert判别法：
+\begin{equation}
+    \lim_{n\to +\infty} \left| \frac{a_{n+1}}{a_n}\right|=1
+\end{equation}
+故收敛半径R=1. 当x=1时，由Raabe判别法：
+\begin{equation}
+    \lim_{n\to \infty} n\left( \frac{a_n}{a_{n+1}}-1\right)=\frac{1}{2}<1
+\end{equation}
+可知$x=\pm 1$时幂级数发散，即其收敛域为$(-1,1)$. 而：
+\begin{equation}
+    \frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n}\leq \frac{(2n-1)!!}{(2n)!!}\frac{\sqrt{2}}{2}
+\end{equation}
+当$|x|= \frac{\sqrt{2}}{2}$时，$\sum_{n=0}^{\infty} a_n x^{2n}$收敛，故由Weierstrass判别法，级数$\sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n} \alpha$关于$\alpha$在$[-\theta_0, \theta_0]$一致收敛，由幂级数的逐项可积性可知级数的积分求和符号次序可交换：
+\begin{equation}
+\begin{aligned}
+    T&=4\sqrt{\frac{l}{g}}\int_0^{\frac{\pi}{2}} \left(\sum_{n=0}^{\infty}\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n} \alpha\right) d\alpha\\
+    &=4\sqrt{\frac{l}{g}} \sum_{n=0}^{\infty}\left(\int_0^{\frac{\pi}{2}}\frac{(2n-1)!!}{(2n)!!}k^{2n}\sin^{2n} \alpha \ d\alpha\right) \\
+    &=4\sqrt{\frac{l}{g}} \sum_{n=0}^{\infty}\left(\frac{(2n-1)!!}{(2n)!!}k^{2n}\int_0^{\frac{\pi}{2}}\sin^{2n} \alpha \ d\alpha\right)
+\end{aligned}
+\end{equation}
+由Wallis公式：
+\begin{equation}
+    \int_{0}^{\frac{\pi}{2}} \sin^{2n} x dx=\frac{2n-1}{2n} \int_{0}^{\frac{\pi}{2}} \sin^{2n-2} x dx=\frac{(2n-1)!!}{(2n)!!} \frac{\pi}{2}
+\end{equation}
+代入T的表达式中：
+\begin{equation}
+    T=2\pi \sqrt{\frac{l}{g}}\left(\sum_{n=0}^{\infty}\left( \frac{(2n-1)!!}{(2n)!!} \right)^2 \sin ^{2n}\frac{\theta_0}{2} \right)
+\end{equation}
+即：
+\begin{equation}\label{final}
+    T=2\pi\sqrt{\frac{l}{g}}\left[1+\left(\frac{1}{2}\right)^2 \sin^2 \left(\frac{\theta_0}{2}\right)+\left(\frac{1 \cdot 3}{2 \cdot 4} \right)^2 \sin^4 \left(\frac{\theta_0}{2}\right)+\cdots \right]
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+\part{牛顿第二定律角度}
+
+\section{动力学分析}
+由牛顿第二定律：
+\begin{equation}\label{nt2}
+    mg\sin \theta=-ml\frac{d^2\theta}{dt^2}
+\end{equation}
+令$\omega=-\frac{d\theta}{dt}$，化简上式得：
+\begin{equation}
+    \frac{d\omega}{dt}=\frac{g}{l}\sin \theta
+\end{equation}
+将$dt$与$d\theta$得关系代入：
+\begin{equation}
+    d\omega=\frac{g}{l}\sin \theta \left(-\frac{d\theta}{\omega}\right)
+\end{equation}
+即：
+\begin{equation}
+    \omega d \omega=-\frac{g}{l} \sin \theta d\theta
+\end{equation}
+进行积分：
+\begin{equation}
+    \frac{\omega^2}{2}=\frac{g}{l}\cos \theta+C
+\end{equation}
+而在初始时刻$\omega=0$，$\theta=\theta_0$，故得$C=-\frac{g}{l} \cos\theta_0$，即：
+\begin{equation}
+    \frac{\omega^2}{2}=\frac{g}{l}(\cos \theta-\cos \theta_0)
+\end{equation}
+得到：
+\begin{equation}
+    \frac{1}{\omega}=\sqrt{\frac{l}{2g}}\frac{1}{\sqrt{\cos \theta-\cos \theta_0}}
+\end{equation}
+由$dt=-\frac{d\theta}{\omega}$得：
+\begin{equation}
+    dt=-\sqrt{\frac{l}{2g}}\frac{d\theta}{\sqrt{\cos \theta-\cos \theta_0}}
+\end{equation}
+此时讨论可以回到式(\ref{dt})进行讨论.
+
+
+\part{近似公式与有问题的近似}
+\section{从椭圆积分上近似}
+由式(\ref{ellipse})可知：
+\begin{equation}
+    T=4\sqrt{\frac{l}{g}}\int^{\frac{\pi}{2}}_0 \frac{d\alpha}{\sqrt{1-\sin^2\frac{\theta_0}{2}\sin^2\alpha}}
+\end{equation}
+当单摆初始角度很小时，可以有近似$\theta_0 \to 0$，此时$\sqrt{1-\sin^2\frac{\theta_0}{2}\sin^2\alpha}\to 0$，所以得到：
+\begin{equation}
+    T\approx 2\pi \sqrt{\frac{l}{g}}
+\end{equation}
+
+
+\section{从动力学分析上近似}
+在单摆初始角度很小的过程中，$\sin \theta \sim \theta $，故式(\ref{nt2})可以简化为：
+\begin{equation}
+    mg\theta=-ml\frac{d^2\theta}{dt^2}
+\end{equation}
+即：
+\begin{equation}
+    \ddot{\theta}+\frac{g}{l}\theta=0
+\end{equation}
+其通解为：
+\begin{equation}
+\begin{aligned}
+    \theta(t)
+    &= C_1\cos \sqrt{\frac{g}{l}}t+C_2\sin \sqrt{\frac{g}{l}}t \\
+    &= \sqrt{C_1^2+C_2^2} \cos (\sqrt{\frac{g}{l}} t-\arctan \frac{C_2}{C_1})
+\end{aligned}
+\end{equation}
+其周期为：
+\begin{equation}
+    T= 2\pi \sqrt{\frac{l}{g}}
+\end{equation}
+
+
+
+
+
+
+
+\part{问题的关键}
+问题的关键在于用无论动能定理或是牛顿第二定律推导出$dt$和$d\theta$之间的关系，然后代入$t$和$\theta$的初值进行积分，从而得到$T=f(\theta_0)$的完整表达式，即式(\ref{final}).
+
+
+\end{document}
+
+
+
+
+
+
