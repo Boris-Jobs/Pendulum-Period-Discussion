@@ -1,4 +1,4 @@
-# Scientific-Topics
+# Pendulum-Period
 
 ### 单摆的周期问题-The Period Problem of Simple Pendulum:
 <object data="20230108_单摆的周期问题.pdf" type="application/pdf" width="700px" height="700px">
